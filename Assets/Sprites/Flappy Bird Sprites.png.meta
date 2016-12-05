@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: b487a95dafaafa94c808b60880ca1483
-timeCreated: 1480877421
+timeCreated: 1480915819
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -524,17 +524,17 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 23
-        y: 214
+        y: 215
         width: 719
-        height: 238
+        height: 236
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline:
-      - - {x: -359.5, y: 119}
-        - {x: -359.5, y: -119}
-        - {x: 359.5, y: -119}
-        - {x: 359.5, y: 119}
+      - - {x: -359.5, y: 118}
+        - {x: -359.5, y: -118}
+        - {x: 359.5, y: -118}
+        - {x: 359.5, y: 118}
     - name: Unknown 3
       rect:
         serializedVersion: 2
