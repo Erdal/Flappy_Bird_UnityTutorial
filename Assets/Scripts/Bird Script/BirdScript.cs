@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class BirdScript : MonoBehaviour
@@ -15,7 +16,8 @@ public class BirdScript : MonoBehaviour
     private float bounceSpeed = 4f;
 
     private bool didFlap; //Used for movment
-    private bool isAlive;  //Usev to see if bird is alive
+    public bool isAlive;  //Used to see if bird is alive
+    private Button flapButton; //This will be how we program our button to flap
 
     void Awake()
     {
@@ -25,6 +27,12 @@ public class BirdScript : MonoBehaviour
         }
 
         isAlive = true;
+
+        //This is how we make our flabButton represent our Flab Button on the unity editor
+        flapButton = GameObject.FindGameObjectWithTag("FlapButton").GetComponent<Button>();
+        flapButton.onClick.AddListener(() => FlapTheBird()); //Here we are making the button call the method FlapTheBird on click
+
+        SetCamerasX();
     }
 
 	// Use this for initialization
@@ -50,8 +58,30 @@ public class BirdScript : MonoBehaviour
                 myRidgidBody.velocity = new Vector2(0, bounceSpeed);
                 anim.SetTrigger("Flap"); //Using animation
             }
+
+            //Basically if everything is fine
+            if(myRidgidBody.velocity.y >= 0)
+            {
+                transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
+            else //Else we start to turn our bird onto an angle
+            {
+                float angle = 0;
+                angle = Mathf.Lerp(0, -90, -myRidgidBody.velocity.y / 7);
+                transform.rotation = Quaternion.Euler(0, 0, angle);
+            }
         }
 	}
+
+    void SetCamerasX()
+    { //Set offsetX in cameraScript
+        CameraScript.offsetX = (Camera.main.transform.position.x - transform.position.x) - 1f;
+    }
+
+    public float GetPositionX()
+    { //Returns position x of our bird
+        return transform.position.x;
+    }
 
     public void FlapTheBird()
     {
