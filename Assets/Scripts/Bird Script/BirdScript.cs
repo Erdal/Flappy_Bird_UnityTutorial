@@ -12,12 +12,19 @@ public class BirdScript : MonoBehaviour
     [SerializeField]
     private Animator anim; //Used for our animations
 
+    [SerializeField]
+    private AudioSource audioSource;
+
+    [SerializeField]
+    private AudioClip flapClick, pointClip, diedClip;
+
     private float forwardSpeed = 3f;
     private float bounceSpeed = 4f;
 
     private bool didFlap; //Used for movment
     public bool isAlive;  //Used to see if bird is alive
     private Button flapButton; //This will be how we program our button to flap
+    public int score;
 
     void Awake()
     {
@@ -27,6 +34,7 @@ public class BirdScript : MonoBehaviour
         }
 
         isAlive = true;
+        score = 0;
 
         //This is how we make our flabButton represent our Flab Button on the unity editor
         flapButton = GameObject.FindGameObjectWithTag("FlapButton").GetComponent<Button>();
@@ -56,6 +64,7 @@ public class BirdScript : MonoBehaviour
             {
                 didFlap = false; //Reset
                 myRidgidBody.velocity = new Vector2(0, bounceSpeed);
+                audioSource.PlayOneShot(flapClick); //Play audio for flapping wings
                 anim.SetTrigger("Flap"); //Using animation
             }
 
@@ -86,5 +95,28 @@ public class BirdScript : MonoBehaviour
     public void FlapTheBird()
     {
         didFlap = true;
+    }
+
+    void OnCollisionEnter2D(Collision2D target)
+    {   //If our bird touches the ground or any pipes
+        if(target.gameObject.tag == "Ground" || target.gameObject.tag == "Pipe")
+        {   //If our bird is alive
+            if(isAlive)
+            {
+                isAlive = false; //Bird is now dead
+                anim.SetTrigger("Bird Died"); //Play animation
+                audioSource.PlayOneShot(diedClip); //Player died audio clip
+            }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D target)
+    {
+        //If player touches pipe holders
+        if(target.tag == "PipeHolder")
+        {
+            score++;
+            audioSource.PlayOneShot(pointClip);
+        }
     }
 }
