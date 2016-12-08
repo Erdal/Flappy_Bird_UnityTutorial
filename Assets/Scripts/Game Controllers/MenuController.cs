@@ -44,6 +44,11 @@ public class MenuController : MonoBehaviour
         }
     }
 
+    public void PlayGame()
+    {
+        SceneFader.instance.FadeIn("GamePlay");
+    }
+
     public void ChangeBird()
     {
         //If blue bird selected
@@ -52,9 +57,7 @@ public class MenuController : MonoBehaviour
             //If green bird is unlocked
             if(isGreenBirdUnloacked)
             {
-                birds[0].SetActive(false); //Deactivate the blue bird
-                GameController.instance.SetSelectedBird(1); //Index of green bird
-                birds[GameController.instance.GetSelectedBird()].SetActive(true); //Activate green bird
+                ActivateDeactivateBird(0, 1);
             }
         }
         else if(GameController.instance.GetSelectedBird() == 1)
@@ -62,22 +65,23 @@ public class MenuController : MonoBehaviour
             //If green bird is unlocked
             if (isRedBirdUnloacked)
             {
-                birds[1].SetActive(false); //Deactivate the green bird
-                GameController.instance.SetSelectedBird(2); //Index of red bird
-                birds[GameController.instance.GetSelectedBird()].SetActive(true); //Activate red bird
+                ActivateDeactivateBird(1, 2);
             }
             else
             {
-                birds[1].SetActive(false); //Deactivate the green bird
-                GameController.instance.SetSelectedBird(0); //Index of blue bird
-                birds[GameController.instance.GetSelectedBird()].SetActive(true); //Activate blue bird
+                ActivateDeactivateBird(1, 0);
             }
         }
         else if(GameController.instance.GetSelectedBird() == 2)
         {
-            birds[2].SetActive(false); //Deactivate the red bird
-            GameController.instance.SetSelectedBird(0); //Index of blue bird
-            birds[GameController.instance.GetSelectedBird()].SetActive(true); //Activate blue bird
+            ActivateDeactivateBird(2, 0);
         }
+    }
+
+    void ActivateDeactivateBird(int birdDeactivate, int birdActivate)
+    {
+        birds[birdDeactivate].SetActive(false); //Deactivate unwanted bird
+        GameController.instance.SetSelectedBird(birdActivate); //Index of wanted bird
+        birds[GameController.instance.GetSelectedBird()].SetActive(true); //Activate bird
     }
 }
