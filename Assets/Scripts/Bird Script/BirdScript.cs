@@ -106,6 +106,7 @@ public class BirdScript : MonoBehaviour
                 isAlive = false; //Bird is now dead
                 anim.SetTrigger("Bird Died"); //Play animation
                 audioSource.PlayOneShot(diedClip); //Player died audio clip
+                GamePlayController.instance.PlayerDiedShowScore(score);
             }
         }
     }
@@ -116,6 +117,7 @@ public class BirdScript : MonoBehaviour
         if(target.tag == "PipeHolder")
         {
             score++;
+            GamePlayController.instance.SetScore(score);
             audioSource.PlayOneShot(pointClip);
         }
     }
